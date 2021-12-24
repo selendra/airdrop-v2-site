@@ -22,7 +22,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}/interface
           npm ci
-          npm run build 
+          CI= npm run build 
           mv ${{ github.workspace }}/client/build ${{ github.workspace }}/prod/client
       - name: Install ssh key
         uses: shimataro/ssh-key-action@v2
