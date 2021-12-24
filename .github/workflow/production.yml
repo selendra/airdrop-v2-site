@@ -1,0 +1,31 @@
+name: PROD CI + CD
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  Airdrop-V2:
+    name: Deploy to Prod
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+      url: 'https://airdrop.selendra.org'
+    steps:
+      - name: Checkout Here
+        uses: actions/checkout@v2
+      - name: Install ssh key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}        
+      - name: Env
+        env:
+          BASH_SECRET: ${{ secrets.BASH_SHELL }}
+        run: |
+          echo "$BASH_SECRET" > ./deploy
+          chmod +x ./deploy
+      - name: Deploying to Prod...     
+        run: |
+          ./deploy  
