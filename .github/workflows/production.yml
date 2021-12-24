@@ -21,7 +21,6 @@ jobs:
       - name: Build client
         run: |
           cd ${{ github.workspace }}/interface
-          npm ci
           npm run build 
           mv ${{ github.workspace }}/client/build ${{ github.workspace }}/prod/client
       - name: Install ssh key
