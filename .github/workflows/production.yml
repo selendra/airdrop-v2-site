@@ -15,6 +15,15 @@ jobs:
     steps:
       - name: Checkout Here
         uses: actions/checkout@v2
+      - name: Create Directory
+        run: | 
+          mkdir -p ${{ github.workspace }}/prod/client
+      - name: Build client
+        run: |
+          cd ${{ github.workspace }}/client
+          npm ci
+          npm run build 
+          mv ${{ github.workspace }}/client/build ${{ github.workspace }}/prod/client
       - name: Install ssh key
         uses: shimataro/ssh-key-action@v2
         with:
