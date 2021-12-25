@@ -17,13 +17,15 @@ jobs:
         uses: actions/checkout@v2
       - name: Create Directory
         run: | 
-          mkdir -p ${{ github.workspace }}/prod/client
+          mkdir -p ${{ github.workspace }}/production
       - name: Build client
         run: |
           cd ${{ github.workspace }}/interface
           npm ci
           CI= npm run build 
-          mv ${{ github.workspace }}/interface/build ${{ github.workspace }}/prod/client
+          mv ${{ github.workspace }}/interface/build ${{ github.workspace }}/production/client
+          mv ${{ github.workspace }}/api ${{ github.workspace }}/production/
+          mv ${{ github.workspace }}/.run.sh ${{ github.workspace }}/production/
       - name: Install ssh key
         uses: shimataro/ssh-key-action@v2
         with:

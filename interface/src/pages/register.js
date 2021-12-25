@@ -4,10 +4,12 @@ import { GlobalContainer } from "../styles/GlobalStyles";
 import { Form, Input, Button, message } from 'antd';
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../config";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { Context } from "../context/context";
 
 export default function Register() {
   let navigate = useNavigate();
+  const { account, connectWallet } = useContext(Context);
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async(val) => {
@@ -20,14 +22,15 @@ export default function Register() {
         },
         body: JSON.stringify({
           email: val.email,
-          password: val.password
+          password: val.password,
+          wallet: account
         })
       }
       const res = await fetch(`${API}/auth/register`, options);
       const data = await res.json();
       if(res.ok) {
         message.success(data.data);
-        navigate('/');
+        navigate('/login');
       } else {
         message.error(data.error);
       }
@@ -43,7 +46,7 @@ export default function Register() {
       <Header />
       <GlobalContainer>
         <Wrapper>
-          <Title>Sign In with email</Title>
+          <Title>Register with email</Title>
           <Form
             layout="vertical"
             onFinish={handleRegister}
@@ -54,6 +57,20 @@ export default function Register() {
               rules={[{ required: true, message: 'Please input your email!' }]}
             >
               <InputStyled />
+            </Form.Item>
+            <Form.Item 
+              label="Address" 
+              style={{ marginBottom: 0 }}
+            >
+              <Form.Item
+                style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+                rules={[{ required: true, message: 'Please connect your wallet!' }]}
+              >
+                <InputStyled placeholder="0x" value={account} readOnly />
+              </Form.Item>
+              <Form.Item style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 8px' }}>
+                <BtnConnect type='ghost' onClick={connectWallet}>Connect Wallet</BtnConnect>
+              </Form.Item>
             </Form.Item>
             <Form.Item 
               label="Password"
@@ -131,4 +148,12 @@ const ButtonStyled = styled(Button)`
     background: #CF8609;
     color: #FFF;
   }
+`
+const BtnConnect = styled(Button)`
+  width: 100%;
+  height: 50px;
+  border-color: #F49D09;
+  border-radius: 8px;
+  color: #FFF;
+  font-weight: 500;
 `

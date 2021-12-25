@@ -1,13 +1,71 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import { Context } from "../context/context";
 import { GlobalContainer } from "../styles/GlobalStyles";
+import { Contract } from "../utils/useContract";
+import { API } from '../config/index';
+import { ethers } from "ethers";
+import { ErrorHandling } from "../utils/errorHandling";
 
 export default function Home() {
   const {account} = useContext(Context);
   const [loading, setLoading] = useState(false);
+
+  const handleClaim = async() => {
+    try {
+      if(!account) return message.error('Please provide a wallet address');
+      setLoading(true);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          wallet: account
+        })
+      }
+      const response = await fetch(`${API}/sign`, options);
+      const data = await response.json();
+      if(response.ok) {
+        const contract = await Contract();
+        const res = await contract.claim(
+          data.data.amount,
+          data.data.expiredAt,
+          data.data.v,
+          data.data.r,
+          data.data.s
+        )
+        async function PendingApprove() {
+          try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const result = await provider.getTransactionReceipt(res.hash);
+            if (result === null) {
+              setTimeout(() => {
+                PendingApprove();
+              }, 2000);
+            } else if (result !== null) {
+              setLoading(false);
+            }
+          } catch (error) {
+            setLoading(false);
+          }
+        }
+  
+        setTimeout(() => {
+          PendingApprove();
+        }, 2000);
+      } else {
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      ErrorHandling(error);
+      setLoading(false);
+    }
+  }
 
   return (
     <div>
@@ -16,12 +74,12 @@ export default function Home() {
         <Title>Selendra Airdrop</Title>
         <Wrapper>
           <CardStyled>
-            <Form layout="vertical" color="white">
+            <Form layout="vertical" color="white" onFinish={handleClaim}>
               <FormItem label='Address'>
                 <InputStyled placeholder="0x" value={account} />
               </FormItem>
               <Form.Item style={{margin: '0'}}>
-                <ButtonStyled htmlType="submit">Claim</ButtonStyled>
+                <ButtonStyled loading={loading} htmlType="submit">Claim</ButtonStyled>
               </Form.Item>
             </Form>
             <Share>Share the airdrop with your friends and family</Share>
