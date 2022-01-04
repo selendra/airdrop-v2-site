@@ -1,8 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../context/context";
-import { ButtonConnect, DropdownStyled, MenuStyled, Item } from "./styles";
-import { DownOutlined } from '@ant-design/icons';
+import { DropdownStyled, MenuStyled, Item } from "./styles";
 
 export default function BtnConnect() {
   const {account, connectWallet} = useContext(Context);
@@ -27,9 +26,7 @@ export default function BtnConnect() {
 
   return (
     <DropdownStyled overlay={menu} onClick={connectWallet}>
-      <ButtonConnect>
-        {account ? `0x...${account.slice(-6)}` : 'Connect Wallet'} <DownOutlined />
-      </ButtonConnect>
+      {account ? `0x...${account.slice(-6)}` : 'Connect Wallet'}
     </DropdownStyled>
   )
 }

@@ -8,6 +8,7 @@ import { Contract } from "../utils/useContract";
 import { API } from '../config/index';
 import { ethers } from "ethers";
 import { ErrorHandling } from "../utils/errorHandling";
+import Share from "../components/Share";
 
 export default function Home() {
   const {account} = useContext(Context);
@@ -82,7 +83,7 @@ export default function Home() {
                 <ButtonStyled loading={loading} htmlType="submit">Claim</ButtonStyled>
               </Form.Item>
             </Form>
-            <Share>Share the airdrop with your friends and family</Share>
+            <Share />
           </CardStyled>
           <div style={{maxWidth: '460px', width: '100%'}}>
             <SubTitle>How to claim SEL tokens airdrop?</SubTitle>
@@ -164,8 +165,8 @@ const ButtonStyled = styled(Button)`
     color: #FFF;
   }
 `
-const Share = styled.p`
-  font-size: 14px;
-  padding-top: 5px;
-  margin: 0;
-`
+// const Share = styled.p`
+//   font-size: 14px;
+//   padding-top: 5px;
+//   margin: 0;
+// `

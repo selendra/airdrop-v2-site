@@ -1,21 +1,31 @@
 import { Dropdown, Button, Menu } from "antd";
 import styled from "styled-components";
 
-export const ButtonConnect = styled(Button)`
-  background: none;
-  color: #FFF;
-  border: 1px solid #F49D09;
-  font-weight: 500;
-  :hover, :focus {
-    border: 1px solid #F49D09;
-    background: #F49D09;
-    color: #FFF;
-  }
-`
-export const DropdownStyled = styled(Dropdown)`
-  width: 280px;
+export const DropdownStyled = styled(Dropdown.Button)`
+  width: 200px;
   height: 45px;
-  border-radius: 8px;
+  button {
+    color: #FFF;
+    height: 45px;
+    background: none;
+    border-color: #F49D09;
+  }
+  button:nth-child(1) {
+    border-radius: 8px 0 0 8px!important;
+    width: 180px;
+    :hover {
+      color: #FFF;
+      background: #F49D09;
+      border: none;
+    }
+  }
+  button:nth-child(2) {
+    border-radius: 0 8px 8px 0!important;
+    :hover {
+      background: #F49D09;
+      border: none;
+    }
+  }
   @media screen and (max-width: 480px) {
     max-width: 120px;
   }
