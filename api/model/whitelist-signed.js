@@ -3,10 +3,14 @@ const mongoose = require('mongoose');
 const WhitelistSchema = new mongoose.Schema({
   hash:  String,
   amount: String,
-  expiredAt: String,
+  Date: String,
   v: String,
   r: String,
   s: String,
+  attempt: {
+    type: Number,
+    default: 1
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',

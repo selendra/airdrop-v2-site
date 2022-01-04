@@ -22,6 +22,9 @@ export const GlobalStyles = createGlobalStyle`
 
 export const GlobalContainer = styled.div`
   max-width: 920px;
-  height: inherit;
+  height: 100%;
   margin: 0 auto;
+  @media screen and (max-width: 921px) {
+    padding: 0 10px;
+  }
 `

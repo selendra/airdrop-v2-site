@@ -4,6 +4,6 @@ const { getSigned } = require('../controller/sign');
 
 const router = express.Router();
 
-router.post('/', protect , getSigned);
+router.post('/', protect, getSigned);
 
 module.exports = router;

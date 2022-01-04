@@ -33,7 +33,7 @@ export default function Home() {
         const contract = await Contract();
         const res = await contract.claim(
           data.data.amount,
-          data.data.expiredAt,
+          data.data.Date,
           data.data.v,
           data.data.r,
           data.data.s
@@ -84,7 +84,7 @@ export default function Home() {
             </Form>
             <Share>Share the airdrop with your friends and family</Share>
           </CardStyled>
-          <div style={{width: '460px'}}>
+          <div style={{maxWidth: '460px', width: '100%'}}>
             <SubTitle>How to claim SEL tokens airdrop?</SubTitle>
             <Text>
               Step 1: Make sure you have Metamask wallet installed, then configured the BSC network within the Metamask. <br/>
@@ -102,9 +102,14 @@ export default function Home() {
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 const CardStyled = styled.div`
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
   height: 100%;
   background: #111730;
   border-radius: 16px;
@@ -131,7 +136,7 @@ const InputStyled = styled(Input)`
   }
 `
 const Title = styled.p`
-  font-size: 20px;
+  font-size: 32px;
   font-weight: bold;
   text-align: center;
   margin: 1rem 0;
