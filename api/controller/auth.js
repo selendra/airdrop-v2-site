@@ -29,15 +29,15 @@ const sendTokenResponse = (user, statusCode, res) => {
 
 exports.register = asyncHandler(async(req, res, next) => {
   const {email, password, wallet} = req.body;
-  const existingEmail = await User.findOne({email});
-  const existingWallet = await User.findOne({wallet});
+  const existingEmail = await User.findOne({email: email.toLowerCase()});
+  const existingWallet = await User.findOne({wallet: wallet.toLowerCase()});
   if(existingEmail) return next(new ErrorResponse('Email already registered!', 400)); 
   if(existingWallet) return next(new ErrorResponse('Wallet already registered!', 400)); 
 
   const user = await User.create({
-    email,
+    email: req.body.email.toLowerCase(),
     password,
-    wallet: wallet.toLowerCase(),
+    wallet: req.body.wallet.toLowerCase(),
   })
 
   res.status(200).json({
@@ -53,7 +53,7 @@ exports.login = asyncHandler(async(req, res, next) => {
     return next(new ErrorResponse('Please provide a phone and password', 400));
   }
   // check for user
-  const user = await User.findOne({email}).select('+password');
+  const user = await User.findOne({email: email.toLowerCase()}).select('+password');
   if(!user) {
     return next(new ErrorResponse('Invalid credentials', 400));
   }
@@ -61,7 +61,7 @@ exports.login = asyncHandler(async(req, res, next) => {
   const isMatch = await user.matchPassword(password);
 
   if(!isMatch) {
-    return next(new ErrorResponse('Invalid credentials', 400));
+    return next(new ErrorResponse('Email or Password is not correct', 400));
   }
   // create token
   sendTokenResponse(user, 200, res);
