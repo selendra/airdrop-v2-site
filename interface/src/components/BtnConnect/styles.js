@@ -2,7 +2,7 @@ import { Dropdown, Button, Menu } from "antd";
 import styled from "styled-components";
 
 export const DropdownStyled = styled(Dropdown.Button)`
-  width: 200px;
+  width: 260px;
   height: 45px;
   button {
     color: #FFF;
@@ -11,8 +11,8 @@ export const DropdownStyled = styled(Dropdown.Button)`
     border-color: #F49D09;
   }
   button:nth-child(1) {
+    width: 260px;
     border-radius: 8px 0 0 8px!important;
-    width: 180px;
     :hover {
       color: #FFF;
       background: #F49D09;
@@ -20,6 +20,7 @@ export const DropdownStyled = styled(Dropdown.Button)`
     }
   }
   button:nth-child(2) {
+    width: 60px;
     border-radius: 0 8px 8px 0!important;
     :hover {
       background: #F49D09;
@@ -27,7 +28,7 @@ export const DropdownStyled = styled(Dropdown.Button)`
     }
   }
   @media screen and (max-width: 480px) {
-    max-width: 120px;
+    max-width: 180px;
   }
 `
 export const MenuStyled = styled(Menu)`

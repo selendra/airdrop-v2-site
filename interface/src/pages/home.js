@@ -90,7 +90,7 @@ export default function Home() {
             <Text>
               Step 1: Make sure you have Metamask wallet installed, then configured the BSC network within the Metamask. <br/>
               Step 2: Make sure you have some BNB to pay for transaction fees, 1-2 USD worth of BNB would be recommended to pay to the network. Though, it would only cost around USD 0.1 - USD 0.2. <br/>
-              Step 3: Enter your BSC address and click on submit. This will fetch an authorization signature from the whitelisted address. <br/>
+              Step 3: Click on claim. This will fetch an authorization signature from the whitelisted addresses. <br/>
               Step 4: Confirm the transaction to claim your SEL tokens. This will send a transaction to the Airdrop smart contract. <br/>
             </Text>
           </div>
