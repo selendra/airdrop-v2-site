@@ -4,7 +4,7 @@ import { ReactComponent as Telegram } from '../../assets/ctelegram.svg';
 import { Wrapper } from './styles';
 
 export default function Share() {
-  const shareMSG = 'Claim $SEL tokens airdrop via airdropv2.selendra.org. follow us on Twitter twitter.com/selendrachain and Telegram t.me/selendrachain. %23Selendra %23Blockchain %23SmartContract %23OpenSource';
+  const shareMSG = 'I just claim 50 SEL. you can also claim $SEL tokens airdrop too via airdropv2.selendra.org. follow Selendra on Twitter twitter.com/selendrachain and Telegram t.me/selendrachain. %23Selendra %23Blockchain %23SmartContract %23OpenSource';
   
   const onTwitter = () => {
     window.open(`https://twitter.com/intent/tweet?url=https%3A%2F%2Fairdropv2.selendra.org%2F&text=${shareMSG}`, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
