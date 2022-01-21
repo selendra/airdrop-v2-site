@@ -1,13 +1,12 @@
-import { Button, Form, Input, message } from "antd";
 import { useContext, useState } from "react";
+import { Button, Form, Input, message } from "antd";
 import styled from "styled-components";
-import Header from "../components/Header";
-import { Context } from "../context/context";
-import { GlobalContainer } from "../styles/GlobalStyles";
-import { Contract } from "../utils/useContract";
 import { API } from '../config/index';
-import { ethers } from "ethers";
+import { Context } from "../context/context";
+import { Contract } from "../utils/useContract";
 import { ErrorHandling } from "../utils/errorHandling";
+import { GlobalContainer } from "../styles/GlobalStyles";
+import Header from "../components/Header";
 import Share from "../components/Share";
 
 export default function Home() {
@@ -39,25 +38,9 @@ export default function Home() {
           data.data.r,
           data.data.s
         )
-        async function PendingApprove() {
-          try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const result = await provider.getTransactionReceipt(res.hash);
-            if (result === null) {
-              setTimeout(() => {
-                PendingApprove();
-              }, 2000);
-            } else if (result !== null) {
-              setLoading(false);
-            }
-          } catch (error) {
-            setLoading(false);
-          }
-        }
-  
-        setTimeout(() => {
-          PendingApprove();
-        }, 2000);
+        await res.wait();
+        message.success('Transaction Completed!');
+        setLoading(false);
       } else {
         setLoading(false);
       }
@@ -85,7 +68,7 @@ export default function Home() {
             </Form>
             <Share />
           </CardStyled>
-          <div style={{maxWidth: '460px', width: '100%'}}>
+          <div style={{maxWidth: '400px', width: '100%'}}>
             <SubTitle>How to claim SEL tokens airdrop?</SubTitle>
             <Text>
               Step 1: Make sure you have Metamask wallet installed, then configured the BSC network within the Metamask. <br/>
@@ -145,7 +128,7 @@ const Title = styled.p`
 const SubTitle = styled.p`
   font-size: 18px;
   font-weight: 500;
-  color: #F49D09;
+  color: #03A9F4;
 `
 const Text = styled.p`
   font-size: 14px;
@@ -156,12 +139,13 @@ const ButtonStyled = styled(Button)`
   height: 45px;
   color: #FFF;
   font-weight: 500;
-  background: #F49D09;
+  background: #03A9F4;
   border: none;
   border-radius: 8px;
   :hover,
   :focus {
-    background: #CF8609;
+    opacity: 0.8;
+    background: #03A9F4;
     color: #FFF;
   }
 `

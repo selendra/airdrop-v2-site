@@ -1,29 +1,27 @@
+import { message } from 'antd';
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components/macro";
 import Header from "../components/Header";
 import { GlobalContainer } from "../styles/GlobalStyles";
-import { Form, Input, Button, message } from 'antd';
-import { Link, useNavigate } from "react-router-dom";
 import { API } from "../config";
-import { useState } from "react";
+import { GoogleLogin } from 'react-google-login';
+// import selendra from '../assets/selendra.png';
 
 export default function Login() {
   let navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async(val) => {
+  const responseSuccess = async (response) => {
     try {
-      setLoading(true);
       const options = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email: val.email,
-          password: val.password
+          tokenId: response.tokenId
         })
       }
-      const res = await fetch(`${API}/auth/login`, options);
+      const res = await fetch(`${API}/auth/googlelogin`, options);
       const data = await res.json();
       if(res.ok) {
         localStorage.setItem('token', data.token);
@@ -32,43 +30,30 @@ export default function Login() {
       } else {
         message.error(data.error);
       }
-      setLoading(false);
     } catch (error) {
       console.log(error);
-      message.error('Something went wrong!');
-      setLoading(false);
     }
   }
+
+  const responseFailure = async (res) => {}
 
   return (
     <div>
       <Header />
       <GlobalContainer>
         <Wrapper>
-          <Title>Sign In with email</Title>
-          <Form
-            layout="vertical"
-            onFinish={handleLogin}
-          >
-            <Form.Item 
-              label="Email"
-              name="email"
-              rules={[{ required: true, message: 'Please input your email!' }]}
-            >
-              <InputStyled />
-            </Form.Item>
-            <Form.Item 
-              label="Password"
-              name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <InputStyled type='password' />
-            </Form.Item>
-            <Form.Item style={{margin: '0'}}>
-              <ButtonStyled loading={loading} htmlType="submit">Sign In</ButtonStyled>
-            </Form.Item>
-          </Form>
-          <Text>Don't have an account? <Link to='/register'>Register</Link></Text>
+          <Container>
+            {/* <center>
+              <Image src={selendra} alt='' />
+            </center> */}
+            <Title>Welcome to <span style={{color: '#03A9F4'}}>Selendra Airdrop</span></Title>
+            <Text>We make it easy for everyone to claim an airdrop.</Text>
+            <GoogleLoginCustom 
+              clientId="920463513406-g1i2qqcc3rcd8t6764aodi81mnbjb7p3.apps.googleusercontent.com"
+              onSuccess={responseSuccess}
+              onFailure={responseFailure}
+            />
+          </Container>
         </Wrapper>
       </GlobalContainer>
     </div>
@@ -78,36 +63,41 @@ export default function Login() {
 const Title = styled.p`
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 1rem;
-`
+  margin-bottom: 16pt;
+  line-height: 16pt;
+`;
+const Container = styled.div`
+  width: 100%;
+  background: #111529;
+  padding: 24pt;
+  border-radius: 8px;
+`;
 const Text = styled.span`
   font-size: 14px;
   font-weight: 500;
-`
+  margin-bottom: 16pt;
+`;
 const Wrapper = styled.div`
   max-width: 400px;
   margin: 0 auto;
-  padding: 1rem 0;
-`
-const InputStyled = styled(Input)`
+  padding: 4rem 0;
+`;
+const GoogleLoginCustom = styled(GoogleLogin)`
   width: 100%;
-  height: 50px;
-  color: #FFF;
-  background: #0F152A!important;
-  border: none;
-  border-radius: 8px;
-`
-const ButtonStyled = styled(Button)`
-  width: 100%;
-  height: 45px;
-  border: none;
-  border-radius: 8px;
-  color: #FFF;
-  background: #F49D09;
-  font-weight: 600;
-  :hover,
-  :focus {
-    background: #CF8609;
-    color: #FFF;
+  margin-top: 16pt;
+  border-radius: 8px!important;
+  svg {
+    display: flex;
+    margin: 0;
   }
+  span {
+    font-size: 14px;
+    font-weight: 600!important;
+    color: #03A9F4;
+  }
+`;
+const Image = styled.img`
+  height: 80px;
+  width: auto;
+  margin-bottom: 16pt;
 `

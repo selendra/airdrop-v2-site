@@ -1,6 +1,7 @@
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../model/user');
+const { createConnection } = require('../utils/google-utils');
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
@@ -26,6 +27,34 @@ const sendTokenResponse = (user, statusCode, res) => {
       token
     });
 }
+
+exports.googleLogin = asyncHandler(async(req, res, next) => {
+  const { tokenId } = req.body;
+  
+  const auth = createConnection();
+  const response = await auth.verifyIdToken({
+    idToken: tokenId,
+    audience: process.env.GOOGLE_CLIENT_ID
+  })
+  const { email_verfied, email } = await response.payload;
+  if({email_verfied}) {
+    const user = await User.findOne({email: email.toLowerCase()});
+    const secret = process.env.JWT_SECRET;
+    if(user) {
+      // create token
+      sendTokenResponse(user, 200, res);
+    } else {
+      const password = email + secret;
+      const user = await User.create({
+        email: email.toLowerCase(),
+        password: password,
+        wallet: ''
+      });
+
+      sendTokenResponse(user, 200, res);
+    }
+  }
+})
 
 exports.register = asyncHandler(async(req, res, next) => {
   const {email, password, wallet} = req.body;
