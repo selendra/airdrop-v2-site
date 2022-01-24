@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import { GlobalContainer } from "../styles/GlobalStyles";
 import { API } from "../config";
 import { GoogleLogin } from 'react-google-login';
-// import selendra from '../assets/selendra.png';
 
 export default function Login() {
   let navigate = useNavigate();
@@ -25,7 +24,7 @@ export default function Login() {
       const data = await res.json();
       if(res.ok) {
         localStorage.setItem('token', data.token);
-        message.success('Login Successfully')
+        message.success('Login Successfully');
         navigate('/');
       } else {
         message.error(data.error);
@@ -43,15 +42,13 @@ export default function Login() {
       <GlobalContainer>
         <Wrapper>
           <Container>
-            {/* <center>
-              <Image src={selendra} alt='' />
-            </center> */}
             <Title>Welcome to <span style={{color: '#03A9F4'}}>Selendra Airdrop</span></Title>
             <Text>We make it easy for everyone to claim an airdrop.</Text>
             <GoogleLoginCustom 
-              clientId="920463513406-g1i2qqcc3rcd8t6764aodi81mnbjb7p3.apps.googleusercontent.com"
+              clientId='920463513406-g1i2qqcc3rcd8t6764aodi81mnbjb7p3.apps.googleusercontent.com'
               onSuccess={responseSuccess}
               onFailure={responseFailure}
+              cookiePolicy={'single_host_origin'}
             />
           </Container>
         </Wrapper>
@@ -96,8 +93,3 @@ const GoogleLoginCustom = styled(GoogleLogin)`
     color: #03A9F4;
   }
 `;
-const Image = styled.img`
-  height: 80px;
-  width: auto;
-  margin-bottom: 16pt;
-`

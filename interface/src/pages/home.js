@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { Button, Form, Input, message } from "antd";
-import styled from "styled-components";
 import { API } from '../config/index';
 import { Context } from "../context/context";
 import { Contract } from "../utils/useContract";
@@ -8,6 +7,7 @@ import { ErrorHandling } from "../utils/errorHandling";
 import { GlobalContainer } from "../styles/GlobalStyles";
 import Header from "../components/Header";
 import Share from "../components/Share";
+import styled from "styled-components";
 
 export default function Home() {
   const {account} = useContext(Context);
@@ -42,6 +42,7 @@ export default function Home() {
         message.success('Transaction Completed!');
         setLoading(false);
       } else {
+        message.error(data.error);
         setLoading(false);
       }
     } catch (error) {

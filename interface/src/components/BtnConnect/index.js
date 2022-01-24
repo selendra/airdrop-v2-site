@@ -9,7 +9,7 @@ export default function BtnConnect() {
 
   useEffect(() => {
     connectWallet();
-  },[]);
+  },[connectWallet]);
 
   function handleLogout() {
     localStorage.setItem('token', '');
