@@ -10,12 +10,12 @@ import Share from "../components/Share";
 import styled from "styled-components";
 
 export default function Home() {
-  const {account} = useContext(Context);
+  const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleClaim = async() => {
     try {
-      if(!account) return message.error('Please provide a wallet address');
+      if(!address) return message.error('Please provide a wallet address');
       setLoading(true);
       const options = {
         method: 'POST',
@@ -24,7 +24,7 @@ export default function Home() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-          wallet: account
+          wallet: address
         })
       }
       const response = await fetch(`${API}/sign`, options);
@@ -54,14 +54,14 @@ export default function Home() {
 
   return (
     <div>
-      <Header auth />
+      <Header />
       <GlobalContainer>
         <Title>Selendra Airdrop</Title>
         <Wrapper>
           <CardStyled>
             <Form layout="vertical" color="white" onFinish={handleClaim}>
               <FormItem label='Address'>
-                <InputStyled placeholder="0x" value={account} />
+                <InputStyled placeholder="5xx" value={address} onChange={(e) => setAddress(e.target.value)} />
               </FormItem>
               <Form.Item style={{margin: '0'}}>
                 <ButtonStyled loading={loading} htmlType="submit">Claim</ButtonStyled>

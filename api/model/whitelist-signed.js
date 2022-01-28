@@ -1,12 +1,10 @@
 const mongoose = require('mongoose');
 
 const WhitelistSchema = new mongoose.Schema({
-  hash:  String,
-  amount: String,
-  Date: String,
-  v: String,
-  r: String,
-  s: String,
+  amount: {
+    type: String,
+    required: true
+  },
   attempt: {
     type: Number,
     default: 1
@@ -17,5 +15,7 @@ const WhitelistSchema = new mongoose.Schema({
     required: true
   }
 })
+
+WhitelistSchema.set('timestamps', true);
 
 module.exports = mongoose.model('Whitelist', WhitelistSchema);
