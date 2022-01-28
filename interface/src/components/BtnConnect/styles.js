@@ -43,3 +43,17 @@ export const Item = styled(Menu.Item)`
     background: #03A9F4;
   }
 `
+export const Logout = styled(Button)`
+  max-width: 260px;
+  width: 100%;
+  height: 45px;
+  border-radius: 8px;
+  color: #fff;
+  background: none;
+  border-color: #03A9F4;
+  :hover, :active {
+    color: #FFF;
+    background: #03A9F4;
+    opacity: 0.8;
+  }
+`

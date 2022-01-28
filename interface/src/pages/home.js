@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <div>
-      <Header />
+      <Header auth/>
       <GlobalContainer>
         <Title>Selendra Airdrop</Title>
         <Wrapper>

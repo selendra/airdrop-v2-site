@@ -27,11 +27,10 @@ async function sendSubstrateToken(address, amount) {
     const hash = await transfer.signAndSend(account);
     console.log("Transfer sent with hash", hash.toHex());
   } catch (error) {
-    console.log(error);
-    // return res.status(401).json({
-    //   success: false,
-    //   error: 'Something went wrong!'
-    // })
+    return res.status(401).json({
+      success: false,
+      error: 'Something went wrong!'
+    })
   }
 }
 
