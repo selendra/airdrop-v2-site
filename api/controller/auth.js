@@ -59,7 +59,7 @@ exports.googleLogin = asyncHandler(async(req, res, next) => {
 exports.register = asyncHandler(async(req, res, next) => {
   const {email, password, wallet} = req.body;
   const existingEmail = await User.findOne({email: email.toLowerCase()});
-  const existingWallet = await User.findOne(wallet);
+  const existingWallet = await User.findOne({wallet});
   if(existingEmail) return next(new ErrorResponse('Email already registered!', 400)); 
   if(existingWallet) return next(new ErrorResponse('Wallet already registered!', 400)); 
 

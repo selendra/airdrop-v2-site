@@ -41,7 +41,7 @@ exports.exeSendSubstrate = asyncHandler(async(req, res, next) => {
   const currentDate = Date.now();
   const eventEnded = 1648573200000; // 30/03/2022
 
-  if(!isAddress(candidate)) return next(new ErrorResponse('Wallet is not correct!', 401)); 
+  if(!isAddress(candidate)) return next(new ErrorResponse('Wallet is not correct!', 400)); 
 
   if(whitelist) {
     const { _id, attempt, updatedAt } = whitelist;
@@ -57,13 +57,13 @@ exports.exeSendSubstrate = asyncHandler(async(req, res, next) => {
           success: true
         })
       } else {
-        return res.status(401).json({
+        return res.status(400).json({
           success: false,
           error: 'Airdrop finished. Hope to see you next time!'
         })
       }
     } else {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         error: 'You had already claim the airdrop!'
       })
@@ -71,7 +71,7 @@ exports.exeSendSubstrate = asyncHandler(async(req, res, next) => {
   } else {
     if(!registeredWallet) {
       const existedWallet = await User.findOne({wallet: candidate});
-      if(existedWallet) return next(new ErrorResponse('Wallet is already used!', 401)); 
+      if(existedWallet) return next(new ErrorResponse('Wallet is already used!', 400)); 
       await User.findByIdAndUpdate(
         req.user.id, 
         { wallet: candidate },
